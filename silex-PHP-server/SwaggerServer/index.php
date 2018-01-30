@@ -11,12 +11,12 @@ use Silex\Application;
 
 $app = new Silex\Application();
 
-$firebase = new Firebase('https://luminous-heat-4957.firebaseio.com/');
+
 
 //fb
 
 $app->POST('/v2/pet', function(Application $app, Request $request) {
-     
+      $firebase = new Firebase('https://luminous-heat-4957.firebaseio.com/');
       $row = array('name' => $request->request->get('name'),'surname' => $request->request->get('surname'));
 
             return new Response($firebase->push("pet/", $row));
@@ -47,6 +47,7 @@ $app->GET('/v2/pet/{petId}', function(Application $app, Request $request, $petId
 //fb
 
 $app->PUT('/v2/pet', function(Application $app, Request $request) {
+      $firebase = new Firebase('https://luminous-heat-4957.firebaseio.com/');
       $row = array('name' => $request->request->get('name'),'surname' => $request->request->get('surname'));
             return new Response($firebase->set("pet/", $row));
             });
