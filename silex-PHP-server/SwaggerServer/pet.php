@@ -19,7 +19,7 @@ $app->POST('/v2/pet', function(Application $app, Request $request) {
       $firebase = new Firebase('https://luminous-heat-4957.firebaseio.com/');
       $row = array('name' => $request->request->get('name'),'surname' => $request->request->get('surname'));
 
-            return new Response($firebase->update("pet", $row));
+            return new Response($firebase->update("pet/".$request->request->get('idPet'), $row));
             });
 
 
