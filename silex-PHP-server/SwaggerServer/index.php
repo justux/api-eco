@@ -11,17 +11,15 @@ use Silex\Application;
 
 $app = new Silex\Application();
 
+$firebase = new Firebase('https://luminous-heat-4957.firebaseio.com/');
+
+//fb
 
 $app->POST('/v2/pet', function(Application $app, Request $request) {
-
-      //print_r($request);
-
-
-
-      $firebase = new Firebase('https://luminous-heat-4957.firebaseio.com/');
+     
       $row = array('name' => $request->request->get('name'),'surname' => $request->request->get('surname'));
 
-            return new Response($firebase->update("pet/", $row));
+            return new Response($firebase->push("pet/", $row));
             });
 
 
@@ -46,9 +44,11 @@ $app->GET('/v2/pet/{petId}', function(Application $app, Request $request, $petId
             return new Response('How about implementing getPetById as a GET method ?');
             });
 
+//fb
 
 $app->PUT('/v2/pet', function(Application $app, Request $request) {
-            return new Response('How about implementing updatePet as a PUT method ?');
+      $row = array('name' => $request->request->get('name'),'surname' => $request->request->get('surname'));
+            return new Response($firebase->set("pet/", $row));
             });
 
 
