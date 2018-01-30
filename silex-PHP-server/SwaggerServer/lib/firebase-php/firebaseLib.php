@@ -150,6 +150,7 @@ class Firebase implements FirebaseInterface
     {
         try {
             $ch = $this->_getCurlHandler($path, 'GET');
+            print_r($ch);
             $return = curl_exec($ch);
             curl_close($ch);
         } catch (Exception $e) {
