@@ -22,6 +22,14 @@ $app->POST('/v2/pet', function(Application $app, Request $request) {
             return new Response($firebase->push("pet/", $row));
             });
 
+$app->PATCH('/v2/pet', function(Application $app, Request $request) {
+      
+            $firebase = new Firebase('https://luminous-heat-4957.firebaseio.com/');
+            $row = array('name' => $request->request->get('name'),'surname' => $request->request->get('surname'));
+
+      return new Response($firebase->push("pet/", $row));
+      });
+
 
 $app->DELETE('/v2/pet/{petId}', function(Application $app, Request $request, $petId) {
             return new Response('How about implementing deletePet as a DELETE method ?');
