@@ -47,7 +47,7 @@ $app->GET('/v2/pet/{petId}', function(Application $app, Request $request, $petId
       
 
 
-            return new Response($petId." ".$firebase->get("pet/".$request->request->get('name')));
+            return new Response($petId." ".$firebase->get("pet/".$petId));
             });
 
 //fb
