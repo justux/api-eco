@@ -11,46 +11,80 @@ use Silex\Application;
 
 $app = new Silex\Application();
 
+
+
+//fb
+
 $app->POST('/v2/user', function(Application $app, Request $request) {
-            return new Response('How about implementing createUser as a POST method ?');
+      $firebase = new Firebase('https://luminous-heat-4957.firebaseio.com/');
+      $row = array(
+            'password' => $request->request->get('password'),
+            'name' => $request->request->get('name'),
+            'surname' => $request->request->get('surname'),
+            'city' => $request->request->get('city'));
+
+      return new Response($firebase->update("user/".$request->request->get('email'), $row));
+      });
+
+
+
+$app->DELETE('/v2/user/{userEmail}', function(Application $app, Request $request, $userEmail) {
+
+      $firebase = new Firebase('https://luminous-heat-4957.firebaseio.com/');
+      return new Response($firebase->delete("user/".$userEmail));
+});
+
+
+
+
+$app->GET('/v2/user/{userEmail}', function(Application $app, Request $request, $userEmail) {
+
+
+      $firebase = new Firebase('https://luminous-heat-4957.firebaseio.com/');
+      
+
+
+      return new Response($firebase->get("user/".$userEmail));
+});
+
+
+
+
+
+$app->GET('/v2/user/findByStatus', function(Application $app, Request $request) {
+            $status = $request->get('status');
+            return new Response('How about implementing findusersByStatus as a GET method ?');
             });
 
 
-$app->POST('/v2/user/createWithArray', function(Application $app, Request $request) {
-            return new Response('How about implementing createUsersWithArrayInput as a POST method ?');
+$app->GET('/v2/user/findByTags', function(Application $app, Request $request) {
+            $tags = $request->get('tags');
+            return new Response('How about implementing findusersByTags as a GET method ?');
             });
 
 
-$app->POST('/v2/user/createWithList', function(Application $app, Request $request) {
-            return new Response('How about implementing createUsersWithListInput as a POST method ?');
+//fb
+
+$app->PUT('/v2/user', function(Application $app, Request $request) {
+      $firebase = new Firebase('https://luminous-heat-4957.firebaseio.com/');
+      $row = array('name' => $request->request->get('name'),'surname' => $request->request->get('surname'));
+            return new Response($firebase->set("user/", $row));
             });
 
 
-$app->DELETE('/v2/user/{username}', function(Application $app, Request $request, $username) {
-            return new Response('How about implementing deleteUser as a DELETE method ?');
+$app->POST('/v2/user/{userId}', function(Application $app, Request $request, $userId) {
+            $name = $request->get('name');
+            $status = $request->get('status');
+            return new Response('How about implementing updateuserWithForm as a POST method ?');
             });
 
 
-$app->GET('/v2/user/{username}', function(Application $app, Request $request, $username) {
-            return new Response('How about implementing getUserByName as a GET method ?');
+$app->POST('/v2/user/{userId}/uploadImage', function(Application $app, Request $request, $userId) {
+            $additional_metadata = $request->get('additional_metadata');
+            $file = $request->get('file');
+            return new Response('How about implementing uploadFile as a POST method ?');
             });
 
-
-$app->GET('/v2/user/login', function(Application $app, Request $request) {
-            $username = $request->get('username');
-            $password = $request->get('password');
-            return new Response('How about implementing loginUser as a GET method ?');
-            });
-
-
-$app->GET('/v2/user/logout', function(Application $app, Request $request) {
-            return new Response('How about implementing logoutUser as a GET method ?');
-            });
-
-
-$app->PUT('/v2/user/{username}', function(Application $app, Request $request, $username) {
-            return new Response('How about implementing updateUser as a PUT method ?');
-            });
 
 
 $app->run();
