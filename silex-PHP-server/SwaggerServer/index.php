@@ -41,7 +41,13 @@ $app->GET('/v2/pet/findByTags', function(Application $app, Request $request) {
 
 
 $app->GET('/v2/pet/{petId}', function(Application $app, Request $request, $petId) {
-            return new Response('How about implementing getPetById as a GET method ?');
+
+
+      $firebase = new Firebase('https://luminous-heat-4957.firebaseio.com/');
+      
+
+
+            return new Response($petId." ".$firebase->get("pet/".$request->request->get('name')));
             });
 
 //fb
