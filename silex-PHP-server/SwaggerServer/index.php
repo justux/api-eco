@@ -3,6 +3,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/lib/firebaseLib.php';
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,8 +14,14 @@ $app = new Silex\Application();
 
 $app->POST('/v2/pet', function(Application $app, Request $request) {
 
-      print_r($request);
-            return new Response('How about implementing addPet as a POST method ?');
+      //print_r($request);
+
+
+
+      $firebase = new Firebase('https://luminous-heat-4957.firebaseio.com/');
+      $row = array('name' => $request->request->get('name'),'surname' => $request->request->get('surname'));
+
+            return new Response($firebase->update("pet/", $row));
             });
 
 
