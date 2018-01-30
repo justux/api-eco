@@ -12,6 +12,8 @@ $app = new Silex\Application();
 
 
 $app->POST('/v2/pet', function(Application $app, Request $request) {
+
+      print_r($request);
             return new Response('How about implementing addPet as a POST method ?');
             });
 
