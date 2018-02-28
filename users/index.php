@@ -20,7 +20,7 @@ $app->POST('/v2/user', function(Application $app, Request $request) {
 	    'surname' => $request->request->get('surname'),
 	    'city' => $request->request->get('city'));
 
-	return new Response($firebase->update("user/".$request->request->get('email'), $row));
+	return new Response('Aggiunto??');
             });
 
 

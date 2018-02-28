@@ -13,14 +13,14 @@ $app = new Silex\Application();
 
 
 $app->POST('/v2/user', function(Application $app, Request $request) {
-      $firebase = new Firebase('https://luminous-heat-4957.firebaseio.com/');
-      $row = array(
-            'password' => $request->request->get('password'),
-            'name' => $request->request->get('name'),
-            'surname' => $request->request->get('surname'),
-            'city' => $request->request->get('city'));
+	$firebase = new Firebase('https://luminous-heat-4957.firebaseio.com/');
+	$row = array(
+	    'password' => $request->request->get('password'),
+	    'name' => $request->request->get('name'),
+	    'surname' => $request->request->get('surname'),
+	    'city' => $request->request->get('city'));
 
-      return new Response($firebase->update("user/".$request->request->get('email'), $row));
+	return new Response($firebase->update("user/".$request->request->get('email'), $row));
             });
 
 
