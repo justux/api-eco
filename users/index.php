@@ -20,7 +20,7 @@ $app->POST('/v2/user', function(Application $app, Request $request) {
 	    'surname' => $request->request->get('surname'),
 	    'city' => $request->request->get('city'));
 
-	return new Response('Aggiunto??');
+	return new Response($firebase->update("user/".$request->request->get('email'), $row));
             });
 
 
@@ -40,7 +40,11 @@ $app->DELETE('/v2/user/{username}', function(Application $app, Request $request,
 
 
 $app->GET('/v2/user/{username}', function(Application $app, Request $request, $username) {
-            return new Response('How about implementing getUserByName as a GET method ?');
+           $firebase = new Firebase('https://luminous-heat-4957.firebaseio.com/');
+	$row = array(
+	    'name' => $request->request->get('username'));
+
+	return new Response($request->request->get('username'));
             });
 
 
