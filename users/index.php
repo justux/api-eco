@@ -35,7 +35,7 @@ $app->POST('/v2/user/createWithList', function(Application $app, Request $reques
 
 
 $app->DELETE('/v2/user/{username}', function(Application $app, Request $request, $username) {
-            return new Response('How about implementing deleteUser as a DELETE method ?'.$request->request->get('username'));
+            return new Response('How about implementing deleteUser as a DELETE method ?'.$request->request->get('username').'aaaaa');
             });
 
 
