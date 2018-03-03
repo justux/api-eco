@@ -23,7 +23,7 @@ $app->POST('/v2/user', function(Application $app, Request $request) {
       );
       print_r($row);
       $user = $request->request->get('email');
-	return new Response($firebase->update("user/".$user, $row));
+	return new Response($firebase->push("user/".$user, $row));
 });
 
 
