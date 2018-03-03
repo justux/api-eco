@@ -18,10 +18,15 @@ $app->POST('/v2/user', function(Application $app, Request $request) {
 	    'password' => $request->request->get('password'),
 	    'name' => $request->request->get('name'),
 	    'surname' => $request->request->get('surname'),
-	    'city' => $request->request->get('city'));
+	    'city' => $request->request->get('city')
 
-	return new Response($firebase->update("user/".$request->request->get('email'), $row));
-            });
+      );
+
+	return new Response($firebase->update("user/".$request->request->get('email')."/", $row));
+});
+
+
+
 
 
 $app->POST('/v2/user/createWithArray', function(Application $app, Request $request) {
