@@ -21,9 +21,10 @@ $app->POST('/v2/user', function(Application $app, Request $request) {
 	    'city' => $request->request->get('city'),
           'email' => $request->request->get('email')
       );
-      print_r($row);
-      $user = $request->request->get('email');
-	return new Response($firebase->push("user/".$user, $row));
+      foreach ($row as $key => $value) {
+            $row[$key] = str_replace('.', '_', $value);
+      }
+	return new Response($firebase->update("user/".$row['email'], $row));
 });
 
 
