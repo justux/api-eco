@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Silex\Application;
 
 $app = new Silex\Application();
+$app['debug'] = true;
 
 
 $app->POST('/v2/user', function(Application $app, Request $request) {
@@ -31,9 +32,44 @@ $app->POST('/v2/user', function(Application $app, Request $request) {
 
 
 
+$app->POST('/v2/login', function(Application $app, Request $request) {
+
+      $firebase = new Firebase('https://luminous-heat-4957.firebaseio.com/');
+
+      $email = str_replace('.', '_', $request->request->get('email'));
+      $password = $request->request->get('password');
 
 
-$app->POST('/v2/user/createWithArray', function(Application $app, Request $request) {
+      $row['email']=$email;
+      $row['password']=$password;
+
+      $utente = $firebase->get("user/".$row['email'], $row);
+
+      if(($utente != "") && ($utente != 'null')){
+            $user = json_decode($utente);
+            if(($user->password === $row['password']) && ($user->email === $row['email'])){
+                  $flag='true';
+            }else{
+                  $flag= 'false';
+            }
+      }else{
+            $flag= 'false';
+      }
+
+
+      return new Response($flag);
+});
+
+
+$app->GET('/v2/logout', function(Application $app, Request $request) {
+            return new Response('How about implementing logoutUser as a GET method ?');
+            });
+
+
+// -----------------------
+
+
+$app->POST('/v2/createWithArray', function(Application $app, Request $request) {
             return new Response('How about implementing createUsersWithArrayInput as a POST method ?');
             });
 
@@ -43,51 +79,24 @@ $app->POST('/v2/createWithList', function(Application $app, Request $request) {
             });
 
 
-$app->DELETE('/v2/user/{username}', function(Application $app, Request $request, $username) {
+$app->DELETE('/v2/{username}', function(Application $app, Request $request, $username) {
             return new Response('How about implementing deleteUser as a DELETE method ?'.$request->request->get('username').'aaaaa');
             });
 
 
-$app->GET('/v2/user/{username}', function(Application $app, Request $request, $username) {
+$app->GET('/v2/u/{username}', function(Application $app, Request $request, $username) {
            $firebase = new Firebase('https://luminous-heat-4957.firebaseio.com/');
 	$row = array(
 	    'name' => $request->request->get('username'));
 
-	return new Response($request->request->get('username'));
+	return new Response('oooo');
             });
 
 
-$app->GET('/v2/user/login', function(Application $app, Request $request) {
-      $username = str_replace('.', '_', $request->request->get('username'));
-      $password = $request->request->get('password');
 
 
-      $row['email']=$username;
-      $row['password']=$password;
 
-      $utente = $firebase->get("user/".$row['email'], $row);
-      if($utente != ""){
-            $user = json_decode($utente);
-            if(($user->password === $row['password']) && ($user->email === $row['username'])){
-                  $flag=true;
-            }else{
-                  $flag= false;
-            }
-      }else{
-            $flag= false;
-      }
-
-
-      return new Response($flag);
-});
-
-
-$app->GET('/v2/user/logout', function(Application $app, Request $request) {
-            return new Response('How about implementing logoutUser as a GET method ?');
-            });
-
-
-$app->PUT('/v2/user/{username}', function(Application $app, Request $request, $username) {
+$app->PUT('/v2/u/{username}', function(Application $app, Request $request, $username) {
             return new Response('How about implementing updateUser as a PUT method ?');
             });
 

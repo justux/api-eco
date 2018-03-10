@@ -59,7 +59,7 @@
         }
       }
     },
-    "/user/createWithArray": {
+    "/createWithArray": {
       "post": {
         "tags": [
           "user"
@@ -92,7 +92,7 @@
         }
       }
     },
-    "/user/createWithList": {
+    "/createWithList": {
       "post": {
         "tags": [
           "user"
@@ -125,7 +125,7 @@
         }
       }
     },
-    "/user/login": {
+    "/login": {
       "get": {
         "tags": [
           "user"
@@ -178,7 +178,7 @@
         }
       }
     },
-    "/user/logout": {
+    "/logout": {
       "get": {
         "tags": [
           "user"
@@ -198,7 +198,7 @@
         }
       }
     },
-    "/user/{username}": {
+    "/{username}": {
       "get": {
         "tags": [
           "user"
