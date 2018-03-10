@@ -19,7 +19,9 @@ $app->POST('/v2/user', function(Application $app, Request $request) {
 	    'name' => $request->request->get('name'),
 	    'surname' => $request->request->get('surname'),
 	    'city' => $request->request->get('city'),
-          'email' => $request->request->get('email')
+          'email' => $request->request->get('email'),
+          'username' => $request->request->get('email'),
+          'logged' => '0'
       );
       foreach ($row as $key => $value) {
             $row[$key] = str_replace('.', '_', $value);
@@ -56,10 +58,28 @@ $app->GET('/v2/user/{username}', function(Application $app, Request $request, $u
 
 
 $app->GET('/v2/user/login', function(Application $app, Request $request) {
-            $username = $request->get('username');
-            $password = $request->get('password');
-            return new Response('How about implementing loginUser as a GET method ?');
-            });
+      $username = str_replace('.', '_', $request->request->get('username'));
+      $password = $request->request->get('password');
+
+
+      $row['email']=$username;
+      $row['password']=$password;
+
+      $utente = $firebase->get("user/".$row['email'], $row);
+      if($utente != ""){
+            $user = json_decode($utente);
+            if(($user->password === $row['password']) && ($user->email === $row['username'])){
+                  $flag=true;
+            }else{
+                  $flag= false;
+            }
+      }else{
+            $flag= false;
+      }
+
+
+      return new Response($flag);
+});
 
 
 $app->GET('/v2/user/logout', function(Application $app, Request $request) {

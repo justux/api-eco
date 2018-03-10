@@ -17,9 +17,9 @@ switch($argv['1']){
                   }
                   
             }
-
-            $firebase->update("user/".$row['email'], $row);
-      
+            if(array_key_exists('password', $row) && array_key_exists('email', $row)){
+                  echo $firebase->update("user/".$row['email'], $row);
+            }
             break;
       case 'getUser':
             foreach ($argv as $key => $value) {
@@ -30,7 +30,7 @@ switch($argv['1']){
                   
             }
 
-            echo($firebase->get("user/".$row['email'], $row));
+            echo $firebase->get("user/".$row['email'], $row);
             break;
       case 'doLogin':
             foreach ($argv as $key => $value) {
