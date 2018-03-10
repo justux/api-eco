@@ -38,7 +38,7 @@ $app->POST('/v2/user/createWithArray', function(Application $app, Request $reque
             });
 
 
-$app->POST('/v2/user/createWithList', function(Application $app, Request $request) {
+$app->POST('/v2/createWithList', function(Application $app, Request $request) {
             return new Response('How about implementing createUsersWithListInput as a POST method ?');
             });
 
