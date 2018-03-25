@@ -1,4 +1,10 @@
 <?php
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Credentials: true ");
+header("Access-Control-Allow-Methods: OPTIONS, GET, POST");
+header("Access-Control-Allow-Headers: Content-Type, Depth, User-Agent, X-File-Size, 
+    X-Requested-With, If-Modified-Since, X-File-Name, Cache-Control");
+
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
@@ -11,7 +17,6 @@ use Silex\Application;
 
 $app = new Silex\Application();
 $app['debug'] = true;
-
 
 $app->POST('/v2/user', function(Application $app, Request $request) {
 	$firebase = new Firebase('https://luminous-heat-4957.firebaseio.com/');
@@ -33,11 +38,11 @@ $app->POST('/v2/user', function(Application $app, Request $request) {
 
 
 $app->POST('/v2/login', function(Application $app, Request $request) {
-
+      $obRequest = json_decode($request->getContent());
       $firebase = new Firebase('https://luminous-heat-4957.firebaseio.com/');
 
-      $email = str_replace('.', '_', $request->request->get('email'));
-      $password = $request->request->get('password');
+      $email = str_replace('.', '_', $obRequest->email);
+      $password = $obRequest->password;
 
 
       $row['email']=$email;
@@ -46,18 +51,31 @@ $app->POST('/v2/login', function(Application $app, Request $request) {
       $utente = $firebase->get("user/".$row['email'], $row);
 
       if(($utente != "") && ($utente != 'null')){
-            $user = json_decode($utente);
+            $user = json_decode($utente);;
             if(($user->password === $row['password']) && ($user->email === $row['email'])){
-                  $flag='true';
+                  $flag='success';
             }else{
-                  $flag= 'false';
+                  $flag= 'fail';
             }
       }else{
-            $flag= 'false';
+            $flag= 'fail';
       }
 
+      $resp = array('status' => $flag, 'user' => array('name' => $user->name,'password' => $user->password));
 
-      return new Response($flag);
+      $response = new Response();
+      $response->setContent(json_encode($resp));
+      //$response->headers->set('Content-Type', 'application/json');
+
+
+      return $response;
+});
+
+$app->OPTIONS('/v2/login', function(Application $app, Request $request) {
+
+
+
+      return new Response("");
 });
 
 
